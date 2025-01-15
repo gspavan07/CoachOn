@@ -7,12 +7,16 @@ const Navbar = () => {
   const [MenuToggle, setMenuToggle] = useState(false);
   return (
     <nav className="bg-white border-b border-gray-200 shadow-sm">
-      <div className="px-4 md:mx-8 py-3 flex items-center justify-between">
+      <div className="px-4 md:mx-8 lg:mx-14 py-3 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
-          <img src="logo.svg" alt="OYO Logo" className="md:h-8 h-5 invert" />
+          <img
+            src="logo.svg"
+            alt="CoachOn Logo"
+            className="md:h-8 h-5 invert"
+          />
         </div>
-
+        {/*Small Screen Navbar Items */}
         <div className="lg:hidden block">
           {MenuToggle ? (
             <div className="scale-up-hor-right fixed top-0 right-0 h-full bg-white shadow-lg">
@@ -62,7 +66,7 @@ const Navbar = () => {
                 <li>
                   <a
                     href="#login"
-                    className="text-gray-600 hover:text-black text-sm  flex flex-col items-center"
+                    className="text-white text-sm bg-red-500 px-6 py-3 rounded-lg flex flex-col items-center"
                   >
                     <span className="font-medium">Login/Signup</span>
                   </a>
@@ -113,7 +117,7 @@ const Navbar = () => {
           <li>
             <a
               href="#login"
-              className="text-gray-600 hover:text-black text-sm flex items-center"
+              className="text-white text-sm flex bg-red-500 px-6 py-3 rounded-lg items-center"
             >
               <span className="font-medium">Login/Signup</span>
             </a>
