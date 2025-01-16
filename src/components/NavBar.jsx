@@ -6,15 +6,11 @@ import { IoMdClose } from "react-icons/io";
 const Navbar = () => {
   const [MenuToggle, setMenuToggle] = useState(false);
   return (
-    <nav className="bg-white border-b border-gray-200 shadow-sm">
+    <nav className="bg-white border-b border-gray-200 z-10 shadow-sm">
       <div className="px-4 md:mx-8 lg:mx-14 py-3 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center">
-          <img
-            src="logo.svg"
-            alt="CoachOn Logo"
-            className="md:h-8 h-5 invert"
-          />
+          <img src="logo.svg" alt="CoachOn Logo" className="md:h-8 h-5" />
         </div>
         {/*Small Screen Navbar Items */}
         <div className="lg:hidden block">
