@@ -8,9 +8,17 @@ export default {
   theme: {
     extend: {
       colors: {
+        primary: "#5340ff",
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+    },
+    screens: {
+      mx: "950px",
+      // => @media (min-width: 900px) { ... }
+
+      "2xl": "1536px",
+      // => @media (min-width: 1536px) { ... }
     },
   },
   plugins: [],

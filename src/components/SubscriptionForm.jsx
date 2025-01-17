@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "./Button";
 
 const SubscriptionForm = () => {
   return (
@@ -27,7 +26,12 @@ const SubscriptionForm = () => {
           <option>Choose your course</option>
           {/* Add more options here */}
         </select>
-        <Button text="Submit" className="w-96 lg:w-40" />
+
+        <button
+          className={`text-white text-sm bg-primary mx-2 px-6 hover:bg-primary py-3 rounded-lg flex flex-col items-center w-96 lg:w-40`}
+        >
+          <span className="font-medium">Submit</span>
+        </button>
       </form>
     </div>
   );

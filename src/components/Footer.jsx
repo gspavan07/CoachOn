@@ -1,7 +1,9 @@
 import React from "react";
-const Footer = () => {
+const Footer = (props) => {
   return (
-    <footer className="bg-gray-100 py-6 border-t border-gray-200">
+    <footer
+      className={`bg-gray-100 py-6 border-t w-full border-gray-200 ${props.className}`}
+    >
       <div className="container mx-auto px-4">
         {/* Links Section */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
