@@ -23,6 +23,32 @@ export default function Home() {
     return () => clearInterval(interval); // Cleanup on unmount
   }, [slides.length]);
 
+  //
+  // const [data, setData] = useState([]);
+  // const [error, setError] = useState(null);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch("/api/login", {
+  //         method: "POST", // Specify the POST method
+  //         headers: {
+  //           "Content-Type": "application/json", // Tell the server you're sending JSON
+  //         },
+  //       });
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       const result = await response.json();
+  //       setData(result);
+  //     } catch (error) {
+  //       setError(error.message);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+  // if (error) return <div>Error: {error}</div>;
+  //
+
   return (
     <div>
       <Navbar />
@@ -96,6 +122,14 @@ export default function Home() {
           </div>
         </div>
       </main>
+      {/* <div>
+        <h1>Data from API:</h1>
+        <ul>
+          {data.map((item, index) => (
+            <li key={index}>{item.name}</li> // Modify based on your data structure
+          ))}
+        </ul>
+      </div> */}
       <SubscriptionForm />
       <Footer />
     </div>
