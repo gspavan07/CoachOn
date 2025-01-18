@@ -8,7 +8,6 @@ const userSchema = new Schema({
   },
   gender: {
     type: String,
-    required: true,
     enum: ["Male", "Female"], // Restrict to these two options
   },
   email: {
@@ -37,7 +36,6 @@ const userSchema = new Schema({
   },
   education: {
     type: String,
-    required: true,
     enum: [
       "9th",
       "10th",
@@ -48,6 +46,7 @@ const userSchema = new Schema({
       "4th Year",
     ], // Valid education levels
   },
+  password: { type: String, required: true },
 });
 
 const UserModel = models.UserModel || model("UserModel", userSchema, "users");
