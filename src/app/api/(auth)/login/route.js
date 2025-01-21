@@ -20,7 +20,7 @@ export const POST = async (req) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return new Response(JSON.stringify({ error: "Invalid credentials" }), {
-        status: 400,
+        status: 401,
       });
     }
     // Successful login (you might want to create a session or JWT token here)

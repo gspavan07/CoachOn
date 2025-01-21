@@ -27,7 +27,10 @@ const userSchema = new Schema({
       type: String,
       required: true,
       unique: true,
-      match: [/^\+91-\d{10}$/, "Please enter a valid Indian mobile number."], // Regex for Indian mobile numbers
+      match: [
+        /^(\+91[\-\s]?|91[\-\s]?|0)?[6-9]\d{9}$/,
+        "Please enter a valid Indian mobile number.",
+      ], // Regex for Indian mobile numbers
     },
     verified: {
       type: Boolean,

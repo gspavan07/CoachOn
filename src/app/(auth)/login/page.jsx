@@ -1,7 +1,45 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
+import { LuEye, LuEyeOff } from "react-icons/lu";
 import Navbar from "@/components/NavBar";
 const Login = () => {
+  // Error Message
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const handelChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setErrorText("");
+    const { email, password } = formData;
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST", // Specify the POST method
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const result = await response.json();
+      console.log(result);
+      if (response.status == 200) {
+        router.push("/signup");
+      }
+      if (response.status != 200) {
+        setErrorText(result.error);
+      }
+    } catch (error) {
+      setErrorText("An error occurred while signing in. Please try again.");
+      console.log(error.message);
+    }
+  };
   return (
     <>
       <Navbar />
@@ -9,9 +47,15 @@ const Login = () => {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img alt="CoachOn" src="logo.svg" className="mx-auto h-10 w-auto" />
         </div>
-
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+        {/* Error Message */}
+        {errorText && (
+          <p className="text-red-500 text-center font-bold text-sm italic mt-10">
+            {errorText}
+          </p>
+        )}
+        <div className="mt-2 sm:mx-auto sm:w-full sm:max-w-sm">
+          <form onSubmit={handleLogin} className="space-y-6">
+            {/* Email input */}
             <div>
               <label
                 htmlFor="email"
@@ -25,12 +69,14 @@ const Login = () => {
                   name="email"
                   type="email"
                   required
+                  onChange={handelChange}
                   autoComplete="email"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
               </div>
             </div>
 
+            {/* password input  */}
             <div>
               <div className="flex items-center justify-between">
                 <label
@@ -48,15 +94,32 @@ const Login = () => {
                   </a>
                 </div>
               </div>
-              <div className="mt-2">
+
+              <div className="mt-2 justify-end items-center flex">
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
+                  onChange={handelChange}
                   autoComplete="current-password"
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
+                {showPassword ? (
+                  <LuEye
+                    className="absolute m-3 cursor-pointer"
+                    onClick={() => {
+                      setShowPassword(false);
+                    }}
+                  />
+                ) : (
+                  <LuEyeOff
+                    className="absolute m-3 cursor-pointer"
+                    onClick={() => {
+                      setShowPassword(true);
+                    }}
+                  />
+                )}
               </div>
             </div>
 

@@ -1,7 +1,47 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/NavBar";
+import { LuEye, LuEyeOff } from "react-icons/lu";
 const SignUp = () => {
+  const router = useRouter();
+  const [errorText, setErrorText] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    mobile: "",
+    email: "",
+    password: "",
+  });
+  const handelChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setErrorText("");
+    const { name, email, mobile, password } = formData;
+    try {
+      const response = await fetch("/api/signup", {
+        method: "POST", // Specify the POST method
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, mobile, password }),
+      });
+      const result = await response.json();
+      console.log(result);
+      if (response.status == 200) {
+        router.push("/signup");
+      }
+      if (response.status != 200) {
+        setErrorText(result.error);
+      }
+    } catch (error) {
+      setErrorText("An error occurred while signing up. Please try again.");
+    }
+  };
   return (
     <>
       <Navbar />
@@ -9,9 +49,14 @@ const SignUp = () => {
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img alt="CoachOn" src="logo.svg" className="mx-auto h-10 w-auto" />
         </div>
-
+        {/* Error Message */}
+        {errorText && (
+          <p className="text-red-500 text-center font-bold text-sm italic mt-10">
+            {errorText}
+          </p>
+        )}
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form method="POST" className="space-y-6">
+          <form onSubmit={handleSignup} className="space-y-6">
             {/* Fullname input */}
             <div>
               <label
@@ -26,25 +71,27 @@ const SignUp = () => {
                   name="name"
                   type="text"
                   required
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-500 sm:text-sm/6"
+                  onChange={handelChange}
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:text-sm/6"
                 />
               </div>
             </div>
             {/* phone input  */}
             <div>
               <label
-                htmlFor="phone"
+                htmlFor="mobile"
                 className="block text-sm/6 font-medium text-gray-900"
               >
                 Mobile Number
               </label>
               <div className="mt-2">
                 <input
-                  id="phone"
-                  name="phone"
+                  id="mobile"
+                  name="mobile"
                   type="tel"
                   required
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-500 sm:text-sm/6"
+                  onChange={handelChange}
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:text-sm/6"
                 />
               </div>
             </div>
@@ -62,7 +109,8 @@ const SignUp = () => {
                   name="email"
                   type="email"
                   required
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-500 sm:text-sm/6"
+                  onChange={handelChange}
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:text-sm/6"
                 />
               </div>
             </div>
@@ -75,21 +123,37 @@ const SignUp = () => {
                 Password
               </label>
 
-              <div className="mt-2">
+              <div className="mt-2 justify-end items-center flex">
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-blue-500 sm:text-sm/6"
+                  onChange={handelChange}
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-primary sm:text-sm/6"
                 />
+                {showPassword ? (
+                  <LuEye
+                    className="absolute m-3 cursor-pointer"
+                    onClick={() => {
+                      setShowPassword(false);
+                    }}
+                  />
+                ) : (
+                  <LuEyeOff
+                    className="absolute m-3 cursor-pointer"
+                    onClick={() => {
+                      setShowPassword(true);
+                    }}
+                  />
+                )}
               </div>
             </div>
 
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+                className="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 Sign Up
               </button>
@@ -100,7 +164,7 @@ const SignUp = () => {
             Already a member?{" "}
             <a
               href="/login"
-              className="font-semibold text-blue-500 hover:text-blue-500"
+              className="font-semibold text-primary hover:text-primary"
             >
               Login
             </a>
