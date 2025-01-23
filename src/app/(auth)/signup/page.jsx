@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/NavBar";
+import Link from "next/link";
 import { LuEye, LuEyeOff } from "react-icons/lu";
 const SignUp = () => {
   const router = useRouter();
@@ -162,12 +163,12 @@ const SignUp = () => {
 
           <p className="mt-10 text-center text-sm/6 text-gray-500">
             Already a member?{" "}
-            <a
+            <Link
               href="/login"
               className="font-semibold text-primary hover:text-primary"
             >
               Login
-            </a>
+            </Link>
           </p>
         </div>
       </div>
